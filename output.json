@@ -1,0 +1,142 @@
+[
+  {
+    "examinationId": "EXAMINATION_ID",
+    "questionModelList": [
+      {
+        "questionId": " QUESTION_ID",
+        "questionDescription": " QUESTION_DESCRIPTION",
+        "answerLabel": " ANSWER_LABEL",
+        "optionModelList": [
+          {
+            "optionLabel": " OPTION_LABEL1",
+            "optionDescription": " OPTION_DESC1"
+          },
+          {
+            "optionLabel": " OPTION_LABEL2",
+            "optionDescription": " OPTION_DESC2"
+          },
+          {
+            "optionLabel": " OPTION_LABEL3",
+            "optionDescription": " OPTION_DESC3"
+          },
+          {
+            "optionLabel": " OPTION_LABEL4",
+            "optionDescription": " OPTION_DESC4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "examinationId": "1",
+    "questionModelList": [
+      {
+        "questionId": "1",
+        "questionDescription": " WHAT IS THE SIZE OF INT IN JAVA?",
+        "answerLabel": " D",
+        "optionModelList": [
+          {
+            "optionLabel": " A",
+            "optionDescription": " 1 BYTES"
+          },
+          {
+            "optionLabel": " B",
+            "optionDescription": " 2 BYTES"
+          },
+          {
+            "optionLabel": " C",
+            "optionDescription": " 3 BYTES"
+          },
+          {
+            "optionLabel": " D",
+            "optionDescription": " 4 BYTES"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "examinationId": "1",
+    "questionModelList": [
+      {
+        "questionId": "2",
+        "questionDescription": " FIND THE ODD ONE OUT?",
+        "answerLabel": " A",
+        "optionModelList": [
+          {
+            "optionLabel": " A",
+            "optionDescription": " POINTER"
+          },
+          {
+            "optionLabel": " B",
+            "optionDescription": " ARRAY"
+          },
+          {
+            "optionLabel": " C",
+            "optionDescription": " STRING"
+          },
+          {
+            "optionLabel": " D",
+            "optionDescription": " LIST"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "examinationId": "1",
+    "questionModelList": [
+      {
+        "questionId": "3",
+        "questionDescription": " NUMBERS OF PRIMITIVE DATATYPES IN JAVA?",
+        "answerLabel": " C",
+        "optionModelList": [
+          {
+            "optionLabel": " A",
+            "optionDescription": "6"
+          },
+          {
+            "optionLabel": " B",
+            "optionDescription": "4"
+          },
+          {
+            "optionLabel": " C",
+            "optionDescription": "8"
+          },
+          {
+            "optionLabel": " D",
+            "optionDescription": "10"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "examinationId": "1",
+    "questionModelList": [
+      {
+        "questionId": "4",
+        "questionDescription": " SELECT THE VALID STATEMENT",
+        "answerLabel": " B",
+        "optionModelList": [
+          {
+            "optionLabel": " A",
+            "optionDescription": " char[] ch = new char(5)"
+          },
+          {
+            "optionLabel": " B",
+            "optionDescription": " char[] ch = new char[5]"
+          },
+          {
+            "optionLabel": " C",
+            "optionDescription": " char[] ch = new char()"
+          },
+          {
+            "optionLabel": " D",
+            "optionDescription": " char[] ch = new char[]"
+          }
+        ]
+      }
+    ]
+  }
+]
