@@ -1,6 +1,8 @@
 package com.example.mcqround1.repository;
 
 import com.example.mcqround1.models.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,14 +17,12 @@ import org.springframework.stereotype.Repository;
 import org.w3c.dom.NameList;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -47,7 +47,7 @@ public class ObjectMapping {
             " FROM TBL_QUESTION T1 LEFT JOIN TBL_USER_ANSWER T2" +
             " ON T1.QUESTION_ID = T2.QUESTION_ID";
     private static final String UPDATE_TBL_ATTEMPT = "UPDATE TBL_USER_ATTEMPT SET RESULT =? , SCORE =? WHERE ATTEMPT_ID =?";
-    private static final String GET_RESULT_DETAIL = "SELECT USER_ACCOUNT_ID,RESULT,SCORE FROM TBL_USER_ATTEMPT WHERE ATTEMPT_ID = ?";
+    private static final String GET_RESULT_DETAIL = "SELECT USER_ACCOUNT_ID,ATTEMPT_ID,RESULT,SCORE FROM TBL_USER_ATTEMPT WHERE ATTEMPT_ID = ?";
 //    select t1.question_id ,t1.answer_label as A1, t2.answer_label as A2 , strcmp(t1.answer_label, t2.answer_label)
 //    -> from tbl_question t1 left join tbl_user_answer t2
 //    -> on t1.question_id = t2.question_id;
@@ -229,7 +229,7 @@ public class ObjectMapping {
         return jdbcTemplate.update(INSERT_ANSWER, new Object[]{ua.getQuestionUuid(), ua.getAnswerLabel(), ua.getAttemptId(), ua.getSubmitedAt()});
     }
 
-    public String result(UserResultQueryRequest ua) {
+    public List<UserExamResult> result(UserResultQueryRequest ua) throws JsonProcessingException {
         int count = 0;
         List<UserQuestionResult> list = jdbcTemplate.query(SELECT_QUESTION_RESULT, new ResultMapper());
        // userExamResult.setQuestionResults(list);
@@ -238,17 +238,20 @@ public class ObjectMapping {
                 count++;
             }
         }
-        String listOfJson = convertToJson(list);
+        //String listOfJson = convertToJson(list);
+        ObjectMapper mapper = new ObjectMapper();
+       String jsonList = mapper.writeValueAsString(list);
         //if(not calculated)
-        Object[] ob = new Object[]{listOfJson, count, ua.getAttemptId()};
+        Object[] ob = new Object[]{jsonList, count, ua.getAttemptId()};
         jdbcTemplate.update(UPDATE_TBL_ATTEMPT, ob);
-        viewResult(ua.getAttemptId(),list);
+       List<UserExamResult> listResult =viewResult(ua.getAttemptId());
 
-        return listOfJson;
+        return listResult;
     }
 
-    public void viewResult(String attemptId,List<UserQuestionResult> list) {
+    public List<UserExamResult> viewResult(String attemptId) {
         Object[] ob = new Object[]{attemptId};
+       return jdbcTemplate.query(GET_RESULT_DETAIL,new FinalResultMapper(),ob);
 
 
     }
@@ -340,18 +343,28 @@ public class ObjectMapping {
         @Override
         public UserExamResult mapRow(ResultSet rs, int rowNum) throws SQLException {
             String userId = rs.getString("USER_ACCOUNT_ID");
-          String result = rs.getString("RESULT");
+            String attemptId = rs.getString("ATTEMPT_ID");
+            String result = rs.getString("RESULT");
 
-            String score = rs.getString("SCORE");
-//            ObjectMapper mapper = new ObjectMapper();
-//            List<UserQuestionResult> list = mapper.readValue( result,)
-            Gson gson = new Gson();
-            NameList nameList = gson.fromJson(result,NameList.class);
-            List<UserQuestionResult> list = nameList.getList();
+            int score = rs.getInt("SCORE");
+            ObjectMapper mapper = new ObjectMapper();
+            List<UserQuestionResult> list = null;
+            try {
+                list = (mapper.readValue(result, new TypeReference<List<UserQuestionResult>>() {
+                    @Override
+                    public Type getType() {
+                        return super.getType();
+                    }
+                }) );
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             UserExamResult uer = new UserExamResult();
             uer.setAccountId(userId);
-            uer.setQuestionResults(result);
-            return null;
+            uer.setAttemptId(attemptId);
+            uer.setQuestionResults(list);
+            uer.setScore(score);
+            return uer;
         }
     }
 }

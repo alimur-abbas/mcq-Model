@@ -6,6 +6,15 @@ public class UserExamResult {
    private String accountId;
    private List<UserQuestionResult> questionResults;
    private int score;
+   private String attemptId;
+
+    public String getAttemptId() {
+        return attemptId;
+    }
+
+    public void setAttemptId(String attemptId) {
+        this.attemptId = attemptId;
+    }
 
     public String getAccountId() {
         return accountId;

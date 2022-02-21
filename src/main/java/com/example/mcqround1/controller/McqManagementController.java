@@ -2,6 +2,7 @@ package com.example.mcqround1.controller;
 
 import com.example.mcqround1.models.*;
 import com.example.mcqround1.repository.ObjectMapping;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,8 +69,8 @@ public class McqManagementController {
     }
 
     @PostMapping("/result")
-    public ResponseEntity<String> userResult(@RequestBody UserResultQueryRequest ur) {
-        String result = objectMapping.result(ur);
+    public ResponseEntity<List<UserExamResult>> userResult(@RequestBody UserResultQueryRequest ur) throws JsonProcessingException {
+        List<UserExamResult> result = objectMapping.result(ur);
         return ResponseEntity.ok(result);
     }
 
