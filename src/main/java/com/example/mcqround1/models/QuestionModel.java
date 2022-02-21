@@ -3,12 +3,30 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 @NoArgsConstructor
-public class QuestionModel  extends OptionModel{
+public class QuestionModel  {
     private String questionId;
+    private String questionLabel;
     private String questionDescription;
     private String answerLabel;
-    List<OptionModel> optionModelList;
 
+    public String getExaminationId() {
+        return examinationId;
+    }
+
+    public void setExaminationId(String examinationId) {
+        this.examinationId = examinationId;
+    }
+
+    List<OptionModel> optionModelList;
+    private String examinationId;
+
+    public String getQuestionLabel() {
+        return questionLabel;
+    }
+
+    public void setQuestionLabel(String questionLabel) {
+        this.questionLabel = questionLabel;
+    }
 
     public String getQuestionId() {
         return questionId;
@@ -42,13 +60,15 @@ public class QuestionModel  extends OptionModel{
         this.optionModelList = optionModelList;
     }
 
-//    @Override
-//    public String toString() {
-//        return "QuestionModel{" +
-//                "questionId='" + questionId + '\'' +
-//                ", questionDescription='" + questionDescription + '\'' +
-//                ", answerLabel='" + answerLabel + '\'' +
-//                ", optionModelList=" + optionModelList +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "QuestionModel{" +
+                "questionId='" + questionId + '\'' +
+                ", questionLabel='" + questionLabel + '\'' +
+                ", questionDescription='" + questionDescription + '\'' +
+                ", answerLabel='" + answerLabel + '\'' +
+                ", optionModelList=" + optionModelList +
+                ", examinationId='" + examinationId + '\'' +
+                '}';
+    }
 }
